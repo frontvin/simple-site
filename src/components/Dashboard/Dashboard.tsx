@@ -1,7 +1,8 @@
 import React from 'react'
 import { Container } from "semantic-ui-react";
 
-export const Dashboard: React.FC = () => {
+export const Dashboard = () => {
+
     return (
         <Container textAlign={"center"} style={{paddingTop: "200px"}}>
             <h1>Gongrats!</h1>
@@ -9,4 +10,4 @@ export const Dashboard: React.FC = () => {
             <button>Log out!</button>
         </Container>
     )
-}
+};
