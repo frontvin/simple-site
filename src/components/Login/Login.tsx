@@ -2,6 +2,9 @@ import React, { ChangeEvent, useState } from "react";
 
 import { Form, Container } from "semantic-ui-react";
 import './Login.css'
+import {axiosGetContentAction} from "../../actions/actions";
+import {LOGIN_USER} from "../../constants/constants";
+import {connect} from "react-redux";
 
 interface IUser {
     login: string,
@@ -32,10 +35,10 @@ export const Login = (props: any) => {
         console.log(`After submit: login: ${login}, password: ${password}`)
 
         //dispatch must be here
-        // const { dispatch } = props;
-        // if (login && password) {
-        //     dispatch(loginUser(login, password));
-        // }
+        const { dispatch } = props;
+        if (login && password) {
+            dispatch(axiosGetContentAction.request(userCredentials));
+        }
 
         setUserCredentials({login: '', password: ''});
     };
@@ -69,3 +72,5 @@ export const Login = (props: any) => {
     );
 };
 
+const mapStateToProps = (response: any) => ({response});
+export default connect(mapStateToProps)(Login);

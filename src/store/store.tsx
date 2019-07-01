@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 
 import createSagaMiddleware from 'redux-saga';
-import Saga from '../saga/saga';
+import { watcherSaga } from '../saga/saga';
 
 import rootReducer from '../reducers/rootReducer';
 
@@ -16,5 +16,4 @@ const middleware = applyMiddleware(
 export const store = createStore(rootReducer, middleware);
 
 // run saga
-sagaMiddleware.run(Saga);
-
+sagaMiddleware.run(watcherSaga);

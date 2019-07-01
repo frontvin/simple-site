@@ -3,14 +3,14 @@ import { routerReducer } from 'react-router-redux';
 import { combineReducers } from "redux";
 
 const initialState = {
-    // userLogin,
-    // token,
-    // error
+    userLogin: "",
+    token: "",
+    Error
 };
 
-export const loginReducer = (state = initialState, action: any) => {
+export const loginReducer = (state = initialState, action: string) => {
 
-    switch (action.type) {
+    switch (action) {
         case LOGIN_SUCCESS: {
             // return { ...state, token: payload };
         }
