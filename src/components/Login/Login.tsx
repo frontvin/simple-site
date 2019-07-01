@@ -3,7 +3,7 @@ import React, { ChangeEvent, useState } from "react";
 import { Form, Container } from "semantic-ui-react";
 import './Login.css'
 import {axiosGetContentAction} from "../../actions/actions";
-import {LOGIN_USER} from "../../constants/constants";
+import { LOGIN_REQUEST } from "../../constants/constants";
 import {connect} from "react-redux";
 
 interface IUser {
@@ -11,7 +11,7 @@ interface IUser {
     password: string,
 }
 
-export const Login = (props: any) => {
+const Login = (props: any) => {
 
     const initialState : IUser = {
         login: '',

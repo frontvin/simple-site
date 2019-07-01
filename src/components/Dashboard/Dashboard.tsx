@@ -7,7 +7,6 @@ export const Dashboard = () => {
         <Container textAlign={"center"} style={{paddingTop: "200px"}}>
             <h1>Gongrats!</h1>
             <p>You have successfully logged in.</p>
-            <button>Log out!</button>
         </Container>
     )
 };

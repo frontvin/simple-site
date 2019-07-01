@@ -1,5 +1,5 @@
-import { LOGIN_FAILURE, LOGIN_USER, LOGIN_SUCCESS, LOGOUT_USER } from "../constants/constants";
-import {createAction, createAsyncAction} from 'typesafe-actions';
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER } from "../constants/constants";
+import { createAsyncAction } from 'typesafe-actions';
 
 // action creators
 // export const loginUser = (login: string, password: string) => ({
@@ -21,12 +21,12 @@ import {createAction, createAsyncAction} from 'typesafe-actions';
 //     type: LOGOUT_USER,
 // });
 
-type User = { login: string; password: string };
+export type User = { login: string; password: string };
 
 export const axiosGetContentAction = createAsyncAction(
-    LOGIN_USER,
+    LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
 )<User, User[], Error>();
 
-export const logOutAction = createAction(LOGOUT_USER);
+// export const logOutAction = createAction(LOGOUT_USER);
