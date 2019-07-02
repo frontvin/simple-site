@@ -12,17 +12,17 @@ export function* watcherSaga() {
 }
 
 // axios request function
-function axiosGetUser() {
+function axiosGetUser(login: string, password: string) {
   return axios({
     method: "get",
-    url: 'http://localhost:3001/userdata?id=1&login={action.payload.login}&password={action.payload.password}'
+    url: `http://localhost:3001/userdata?id=1&login=${login}&password=${password}`
   });
 }
 
 // worker saga
-export function* workerSaga() {
+export function* workerSaga(action: ReturnType<typeof axiosGetContentAction.request> ) {
   try {
-    const response = yield call(axiosGetUser);
+    const response = yield call(axiosGetUser, action.payload.login, action.payload.password);
     console.log(
         `this is server response: 
           login: ${response.data[0].login}
