@@ -15,8 +15,9 @@ const initialState: IState = {
 export const loginReducer = (state = initialState, action: { type: string; }) => {
 
     switch (action.type) {
+
         case LOGIN_SUCCESS: {
-            return { ...state, token: "accepted_token" };
+            return { ...state, isLogin: true, token: "accepted_token" };
         }
         case LOGIN_FAILURE: {
             return { ...state, error: "Failure!" };

@@ -1,8 +1,14 @@
 {
   "userdata": [
     {
+      "id": 1,
       "login": "test",
       "password": "test"
+    },
+    {
+      "id": 2,
+      "login": "test1",
+      "password": "test1"
     }
   ]
 }
