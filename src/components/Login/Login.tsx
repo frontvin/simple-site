@@ -1,76 +1,92 @@
 import React, { ChangeEvent, useState } from "react";
 
 import { Form, Container } from "semantic-ui-react";
-import './Login.css'
-import {axiosGetContentAction} from "../../actions/actions";
-import { LOGIN_REQUEST } from "../../constants/constants";
-import {connect} from "react-redux";
+import "./Login.css";
+import { axiosGetContentAction, User } from "../../actions/actions";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { IState } from '../../reducers/rootReducer'
 
-interface IUser {
-    login: string,
-    password: string,
+interface IPropsFromDispatch {
+  onRequestUser: (d: User) => ReturnType<typeof mapDispatchToProps>
 }
 
-const Login = (props: any) => {
+type Props = IPropsFromDispatch;
 
-    const initialState : IUser = {
-        login: '',
-        password: '',
-    };
+interface IUser {
+  login: string;
+  password: string;
+}
 
-    const [userCredentials, setUserCredentials] = useState(initialState);
+const Login: React.FC<Props> = (props: Props) => {
 
-    console.log(userCredentials);
+  const initialState: IUser = {
+    login: "",
+    password: ""
+  };
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) : void  => {
-        const { name, value } = e.target;
-        setUserCredentials( {...userCredentials, ...{[name] : value } })
-    };
+  const [userCredentials, setUserCredentials] = useState(initialState);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+  console.log(userCredentials);
 
-        const { login, password } = userCredentials;
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { name, value } = e.target;
+    setUserCredentials({ ...userCredentials, ...{ [name]: value } });
+  };
 
-        console.log(`After submit: login: ${login}, password: ${password}`)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-        //dispatch must be here
-        const { dispatch } = props;
-        if (login && password) {
-            dispatch(axiosGetContentAction.request(userCredentials));
-        }
+    const { login, password } = userCredentials;
 
-        setUserCredentials({login: '', password: ''});
-    };
+    console.log(`After submit: login: ${login}, password: ${password}`);
 
-    return (
-      <Container style={{width: "200px"}} textAlign="center">
-        <Form
-            onSubmit={handleSubmit}
-            style={{paddingTop: "200px"}}>
-          <Form.Field required>
-            <Form.Input
-                type="text"
-                placeholder="Login"
-                name={"login"}
-                value={userCredentials.login}
-                onChange={handleChange}
-            />
-          </Form.Field>
-          <Form.Field required>
-            <Form.Input
-                type="password"
-                placeholder="Password"
-                name={"password"}
-                value={userCredentials.password}
-                onChange={handleChange}
-            />
-          </Form.Field>
-          <Form.Button content="Submit" />
-        </Form>
-      </Container>
-    );
+    //dispatch must be here
+    if (login && password) {
+      props.onRequestUser(userCredentials)
+    }
+
+    setUserCredentials({ login: "", password: "" });
+  };
+
+  return (
+    <Container style={{ width: "200px" }} textAlign="center">
+      <Form onSubmit={handleSubmit} style={{ paddingTop: "200px" }}>
+        <Form.Field required>
+          <Form.Input
+            type="text"
+            placeholder="Login"
+            name={"login"}
+            value={userCredentials.login}
+            onChange={handleChange}
+          />
+        </Form.Field>
+        <Form.Field required>
+          <Form.Input
+            type="password"
+            placeholder="Password"
+            name={"password"}
+            value={userCredentials.password}
+            onChange={handleChange}
+          />
+        </Form.Field>
+        <Form.Button content="Submit" />
+      </Form>
+    </Container>
+  );
 };
 
-const mapStateToProps = (response: any) => ({response});
-export default connect(mapStateToProps)(Login);
+// const mapStateToProps = (state: IState) : IStateProps => {
+//
+// }
+
+const mapDispatchToProps = (dispatch : Dispatch) => {
+    return {
+        onRequestUser: (data: User) => {
+            return dispatch(axiosGetContentAction.request(data));
+        }
+    }
+};
+
+export default connect<IPropsFromDispatch>(mapDispatchToProps)(Login);
+

@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS, LOGOUT_USER } from "../constants/constants";
+import { LOGIN_FAILURE, LOGIN_REQUEST, LOGIN_SUCCESS } from "../constants/constants";
 import { createAsyncAction } from 'typesafe-actions';
 
 // action creators
@@ -12,7 +12,7 @@ import { createAsyncAction } from 'typesafe-actions';
 //     payload: { login, password }
 // });
 //
-// export const failure = (error: any) => ({
+// export const failure = (error) => ({
 //     type: LOGIN_FAILURE,
 //     error
 // });
@@ -28,5 +28,3 @@ export const axiosGetContentAction = createAsyncAction(
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
 )<User, User[], Error>();
-
-// export const logOutAction = createAction(LOGOUT_USER);

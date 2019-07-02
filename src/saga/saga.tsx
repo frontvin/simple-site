@@ -24,9 +24,10 @@ function axiosGetUser() {
 // worker saga
 export function* workerSaga() {
   try {
-    const response: User[] = yield call(axiosGetUser);
+    const response = yield call(axiosGetUser);
+    console.log(`this is serverresponse: ${response}`);
 
-    // dispatch a success action to the store with new content
+    // dispatch a success action to the store user data
     yield put(axiosGetContentAction.success(response));
   }
   catch (error) {
