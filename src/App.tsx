@@ -7,7 +7,7 @@ import Login from "./components/Login/Login";
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
 
-export const App = () => {
+const App = () => {
   return (
     <BrowserRouter>
       <div>
@@ -20,3 +20,5 @@ export const App = () => {
     </BrowserRouter>
   );
 };
+
+export default App

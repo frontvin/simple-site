@@ -6,9 +6,12 @@ import { axiosGetContentAction, User } from "../../actions/actions";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { IState } from '../../reducers/rootReducer'
+import {Action} from "typesafe-actions";
+
+
 
 interface IPropsFromDispatch {
-  onRequestUser: (d: User) => ReturnType<typeof mapDispatchToProps>
+  onRequestUser: (d: User) => ReturnType<typeof axiosGetContentAction.request>
 }
 
 type Props = IPropsFromDispatch;
@@ -18,7 +21,7 @@ interface IUser {
   password: string;
 }
 
-const Login: React.FC<Props> = (props: Props) => {
+const Login = (props: Props) => {
 
   const initialState: IUser = {
     login: "",
@@ -88,5 +91,5 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
     }
 };
 
-export default connect<IPropsFromDispatch>(mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
 
