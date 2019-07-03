@@ -1,4 +1,4 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS } from "../constants/constants";
+import {LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_USER} from "../constants/constants";
 
 export interface IState {
     isLogin: boolean,
@@ -22,6 +22,8 @@ export const loginReducer = (state = initialState, action: { type: string; }) =>
         case LOGIN_FAILURE: {
             return { ...state, error: "Failure!" };
         }
+        case LOGOUT_USER:
+            return {...state, isLogin: false, token: ""};
         default:
             return state;
     }

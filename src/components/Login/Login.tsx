@@ -5,9 +5,8 @@ import "./Login.css";
 import { axiosGetContentAction, User } from "../../actions/actions";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { store } from '../../store/store'
-import {Redirect} from "react-router";
-import {IState} from "../../reducers/rootReducer";
+import { Redirect } from "react-router";
+import { IState } from "../../reducers/rootReducer";
 
 interface IPropsFromState {
   isLogin: boolean

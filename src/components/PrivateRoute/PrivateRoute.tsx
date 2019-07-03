@@ -1,27 +1,26 @@
-import React from 'react';
-import {Redirect, Route} from "react-router";
-import {store} from "../../store/store";
-import {connect} from "react-redux";
-import {IState} from "../../reducers/rootReducer";
+import React from "react";
+import { Redirect, Route } from "react-router";
+import { store } from "../../store/store";
+import { connect } from "react-redux";
+import { IState } from "../../reducers/rootReducer";
 
 interface IPrivateProps {
-    component: any;
-    isLogin: boolean;
-    path?: string;
+  component: any;
+  isLogin: boolean;
+  path?: string;
 }
 
 const PrivateRoute = (props: IPrivateProps) => {
-    const { component: Component, ...rest } = props;
+  const { component: Component, ...rest } = props;
 
-    return (
-        <Route {...rest} render={ props => store.getState().isLogin
-        ? ( <Component {...props} />)
-        : ( <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: props.location }
-            }}
-          />
+  return (
+    <Route
+      {...rest}
+      render={props =>
+        store.getState().isLogin ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/login" />
         )
       }
     />
@@ -29,9 +28,9 @@ const PrivateRoute = (props: IPrivateProps) => {
 };
 
 const mapStateToProps = (state: IState) => {
-    return {
-        isLogin: state.isLogin
-    }
+  return {
+    isLogin: state.isLogin
+  };
 };
 
 export default connect(mapStateToProps)(PrivateRoute);
