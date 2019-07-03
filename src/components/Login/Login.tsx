@@ -5,12 +5,19 @@ import "./Login.css";
 import { axiosGetContentAction, User } from "../../actions/actions";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import { store } from '../../store/store'
+import {Redirect} from "react-router";
+import {IState} from "../../reducers/rootReducer";
+
+interface IPropsFromState {
+  isLogin: boolean
+}
 
 interface IPropsFromDispatch {
   onRequestUser: (d: User) => ReturnType<typeof axiosGetContentAction.request>
 }
 
-type Props = IPropsFromDispatch;
+type Props = IPropsFromState & IPropsFromDispatch;
 
 interface IUser {
   login: string;
@@ -49,30 +56,42 @@ const Login = (props: Props) => {
   };
 
   return (
-    <Container style={{ width: "200px" }} textAlign="center">
-      <Form onSubmit={ handleSubmit } style={{ paddingTop: "200px" }}>
-        <Form.Field required>
-          <Form.Input
-            type="text"
-            placeholder="Login"
-            name={ "login" }
-            value={ userCredentials.login }
-            onChange={ handleChange }
-          />
-        </Form.Field>
-        <Form.Field required>
-          <Form.Input
-            type="password"
-            placeholder="Password"
-            name={ "password" }
-            value={ userCredentials.password }
-            onChange={ handleChange }
-          />
-        </Form.Field>
-        <Form.Button content="Submit" />
-      </Form>
-    </Container>
+    <div>
+      {
+        !props.isLogin ?
+        <Container style={{ width: "200px" }} textAlign="center">
+          <Form onSubmit={ handleSubmit } style={{ paddingTop: "200px" }}>
+            <Form.Field required>
+              <Form.Input
+                type="text"
+                placeholder="Login"
+                name={ "login" }
+                value={ userCredentials.login }
+                onChange={ handleChange }
+              />
+            </Form.Field>
+            <Form.Field required>
+              <Form.Input
+                type="password"
+                placeholder="Password"
+                name={ "password" }
+                value={ userCredentials.password }
+                onChange={ handleChange }
+              />
+            </Form.Field>
+            <Form.Button content="Submit" />
+          </Form>
+        </Container>
+        : <Redirect to='/dashboard' />
+      }
+    </div>
   );
+};
+
+const mapStateToProps = (state: IState) => {
+  return {
+    isLogin: state.isLogin
+  }
 };
 
 const mapDispatchToProps = (dispatch : Dispatch) => {
@@ -83,5 +102,5 @@ const mapDispatchToProps = (dispatch : Dispatch) => {
     }
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
 

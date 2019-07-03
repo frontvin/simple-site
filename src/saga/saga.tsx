@@ -15,7 +15,7 @@ export function* watcherSaga() {
 function axiosGetUser(login: string, password: string) {
   return axios({
     method: "get",
-    url: `http://localhost:3001/userdata?id=1&login=${login}&password=${password}`
+    url: `http://localhost:3001/userdata?id=1&login=${login}&password=${password}`,
   });
 }
 

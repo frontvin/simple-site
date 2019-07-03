@@ -6,6 +6,7 @@ import Login from "./components/Login/Login";
 
 import "semantic-ui-css/semantic.min.css";
 import "./App.css";
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 
 const App = () => {
   return (
@@ -14,7 +15,7 @@ const App = () => {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route path="/login" component={Login} />
-          <Route path="/dashboard" component={ Dashboard } />
+          <PrivateRoute path="/dashboard" component={ Dashboard } />
         </Switch>
       </div>
     </BrowserRouter>
