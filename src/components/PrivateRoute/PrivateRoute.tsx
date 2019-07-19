@@ -6,7 +6,7 @@ import { IState } from "../../reducers/rootReducer";
 
 interface IPrivateProps {
   component: any;
-  isLogin: boolean;
+  success: boolean;
   path?: string;
 }
 
@@ -17,7 +17,7 @@ const PrivateRoute = (props: IPrivateProps) => {
     <Route
       {...rest}
       render={props =>
-        store.getState().isLogin ? (
+        store.getState().success ? (
           <Component {...props} />
         ) : (
           <Redirect to="/login" />
@@ -29,7 +29,7 @@ const PrivateRoute = (props: IPrivateProps) => {
 
 const mapStateToProps = (state: IState) => {
   return {
-    isLogin: state.isLogin
+      success: state.success
   };
 };
 

@@ -9,7 +9,7 @@ import { Redirect } from "react-router";
 import { IState } from "../../reducers/rootReducer";
 
 interface IPropsFromState {
-  isLogin: boolean
+  success: boolean
 }
 
 interface IPropsFromDispatch {
@@ -20,6 +20,7 @@ type Props = IPropsFromState & IPropsFromDispatch;
 
 interface IUser {
   login: string;
+  email: string;
   password: string;
 }
 
@@ -27,6 +28,7 @@ const Login = (props: Props) => {
 
   const initialState: IUser = {
     login: "",
+    email: "",
     password: ""
   };
 
@@ -42,22 +44,22 @@ const Login = (props: Props) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { login, password } = userCredentials;
+    const { login, email, password } = userCredentials;
 
-    console.log(`After submit: login: ${login}, password: ${password}`);
+    console.log(`After submit: login: ${login}, email: ${email} password: ${password}`);
 
     //dispatch must be here
-    if (login && password) {
+    if (login && email && password) {
       props.onRequestUser(userCredentials)
     }
 
-    setUserCredentials({ login: "", password: "" });
+    setUserCredentials({ login: "", email: "", password: "" });
   };
 
   return (
     <div>
       {
-        !props.isLogin ?
+        !props.success ?
         <Container style={{ width: "200px" }} textAlign="center">
           <Form onSubmit={ handleSubmit } style={{ paddingTop: "200px" }}>
             <Form.Field required>
@@ -71,6 +73,15 @@ const Login = (props: Props) => {
             </Form.Field>
             <Form.Field required>
               <Form.Input
+                  type="email"
+                  placeholder="Email"
+                  name={ "email" }
+                  value={ userCredentials.email }
+                  onChange={ handleChange }
+              />
+            </Form.Field>
+            <Form.Field required>
+              <Form.Input
                 type="password"
                 placeholder="Password"
                 name={ "password" }
@@ -78,7 +89,7 @@ const Login = (props: Props) => {
                 onChange={ handleChange }
               />
             </Form.Field>
-            <Form.Button content="Submit" />
+            <Form.Button content="LogIn" />
           </Form>
         </Container>
         : <Redirect to='/dashboard' />
@@ -89,7 +100,7 @@ const Login = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
   return {
-    isLogin: state.isLogin
+    success: state.success
   }
 };
 
