@@ -9,7 +9,7 @@ import { Redirect } from "react-router";
 import { IState } from "../../reducers/rootReducer";
 
 interface IPropsFromState {
-  success: boolean
+  token: boolean
 }
 
 interface IPropsFromDispatch {
@@ -59,7 +59,7 @@ const Login = (props: Props) => {
   return (
     <div>
       {
-        !props.success ?
+        !props.token ?
         <Container style={{ width: "200px" }} textAlign="center">
           <Form onSubmit={ handleSubmit } style={{ paddingTop: "200px" }}>
             <Form.Field required>
@@ -100,7 +100,7 @@ const Login = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
   return {
-    success: state.success
+    token: state.token ? true : false
   }
 };
 

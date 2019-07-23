@@ -51,9 +51,11 @@ export const loginReducer = (state = initialState, action: { type: string; paylo
             return { ...state,
                 success: action.payload.success,
                 token: action.payload.token,
-                id: id,
-                login: login,
-                email: email
+                decodedToken: {
+                    id: id,
+                    login: login,
+                    email: email
+                }
             }
         }
         case LOGIN_FAILURE: {
