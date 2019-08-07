@@ -1,8 +1,11 @@
-import { LOGIN_FAILURE, LOGIN_SUCCESS, LOGOUT_USER } from "../constants/constants";
 import axios from 'axios';
 import decode from 'jwt-decode';
+import {ActionType, getType} from "typesafe-actions";
+import { ServerResponse } from "../actions/actions";
 
-export type ServerResponse = { success: boolean, token: string }
+import * as actions from '../actions/actions';
+export type RootAction = ActionType<typeof actions>;
+
 export type DecodedToken = {
     id: string,
     login: string,
@@ -11,7 +14,7 @@ export type DecodedToken = {
 export interface IState {
     success: boolean,
     token: string,
-    decodedToken: DecodedToken
+    decodedToken: DecodedToken,
     error: string,
 }
 
@@ -28,23 +31,20 @@ const initialState: IState = {
 
 // axios request function
 export const axiosGetUser = async (login: string, email: string, password: string)  => {
-    try {
+
         const response = await axios.post('http://localhost:5000/login', { email, password });
+
         let  responseData : ServerResponse =  await response.data;
         console.log(responseData);
 
         return responseData;
-    } catch(error) {
-        console.log("error", error);
-    }
 };
 
-export const loginReducer = (state = initialState, action: { type: string; payload: ServerResponse }) => {
+export const loginReducer = (state = initialState, action: RootAction) => {
 
     switch (action.type) {
 
-        case LOGIN_SUCCESS: {
-
+        case getType(actions.axiosGetContentAction.success):{
             const dec: DecodedToken = decode(action.payload.token);
             const { id, login, email } = dec;
 
@@ -58,11 +58,10 @@ export const loginReducer = (state = initialState, action: { type: string; paylo
                 }
             }
         }
-        case LOGIN_FAILURE: {
-            return { ...state, error: "Failure!" };
+        case getType(actions.axiosGetContentAction.failure): {
+            // console.log(action.type);
+            return { ...state, error:  action.payload.err};
         }
-        case LOGOUT_USER:
-            return {...state, success: false, token: "" };
         default:
             return state;
     }

@@ -29,12 +29,12 @@ const Login = (props: Props) => {
   const initialState: IUser = {
     login: "",
     email: "",
-    password: ""
+    password: "",
   };
 
   const [userCredentials, setUserCredentials] = useState(initialState);
 
-  console.log(userCredentials);
+  // console.log(userCredentials);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -47,6 +47,20 @@ const Login = (props: Props) => {
     const { login, email, password } = userCredentials;
 
     console.log(`After submit: login: ${login}, email: ${email} password: ${password}`);
+    //
+    // let error = false;
+    // if (userCredentials.email === "") {
+    //   setUserCredentials( {...userCredentials, loginError: true} );
+    //   error = true;
+    // } else {
+    //   setUserCredentials({...userCredentials, loginError: false} )
+    // }
+    // if (userCredentials.password.length < 8) {
+    //   setUserCredentials( {...userCredentials, passwordError: true} );
+    //   error = true;
+    // } else {
+    //   setUserCredentials({...userCredentials, passwordError: false} )
+    // }
 
     //dispatch must be here
     if (login && email && password) {
@@ -61,7 +75,7 @@ const Login = (props: Props) => {
       {
         !props.token ?
         <Container style={{ width: "200px" }} textAlign="center">
-          <Form onSubmit={ handleSubmit } style={{ paddingTop: "200px" }}>
+          <Form onSubmit={ handleSubmit } className="form" style={{ paddingTop: "200px" }}>
             <Form.Field required>
               <Form.Input
                 type="text"
@@ -69,6 +83,7 @@ const Login = (props: Props) => {
                 name={ "login" }
                 value={ userCredentials.login }
                 onChange={ handleChange }
+                // error = {userCredentials.loginError}
               />
             </Form.Field>
             <Form.Field required>
@@ -78,6 +93,7 @@ const Login = (props: Props) => {
                   name={ "email" }
                   value={ userCredentials.email }
                   onChange={ handleChange }
+                  // error = {userCredentials.emailError}
               />
             </Form.Field>
             <Form.Field required>
@@ -87,9 +103,17 @@ const Login = (props: Props) => {
                 name={ "password" }
                 value={ userCredentials.password }
                 onChange={ handleChange }
+                // error={userCredentials.passwordError}
               />
             </Form.Field>
-            <Form.Button content="LogIn" />
+            <Form.Button
+                content="LogIn"
+                disabled = {
+                  !userCredentials.login
+                  || !userCredentials.email
+                  || !userCredentials.password
+                }
+            />
           </Form>
         </Container>
         : <Redirect to='/dashboard' />
