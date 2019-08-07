@@ -35,7 +35,6 @@ export const axiosGetUser = async (login: string, email: string, password: strin
         const response = await axios.post('http://localhost:5000/login', { email, password });
 
         let  responseData : ServerResponse =  await response.data;
-        console.log(responseData);
 
         return responseData;
 };

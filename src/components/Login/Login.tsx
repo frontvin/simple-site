@@ -9,7 +9,8 @@ import { Redirect } from "react-router";
 import { IState } from "../../reducers/rootReducer";
 
 interface IPropsFromState {
-  token: boolean
+  token: boolean,
+  error: string
 }
 
 interface IPropsFromDispatch {
@@ -47,20 +48,6 @@ const Login = (props: Props) => {
     const { login, email, password } = userCredentials;
 
     console.log(`After submit: login: ${login}, email: ${email} password: ${password}`);
-    //
-    // let error = false;
-    // if (userCredentials.email === "") {
-    //   setUserCredentials( {...userCredentials, loginError: true} );
-    //   error = true;
-    // } else {
-    //   setUserCredentials({...userCredentials, loginError: false} )
-    // }
-    // if (userCredentials.password.length < 8) {
-    //   setUserCredentials( {...userCredentials, passwordError: true} );
-    //   error = true;
-    // } else {
-    //   setUserCredentials({...userCredentials, passwordError: false} )
-    // }
 
     //dispatch must be here
     if (login && email && password) {
@@ -71,11 +58,14 @@ const Login = (props: Props) => {
   };
 
   return (
+
     <div>
       {
         !props.token ?
         <Container style={{ width: "200px" }} textAlign="center">
+
           <Form onSubmit={ handleSubmit } className="form" style={{ paddingTop: "200px" }}>
+            <div>{props.error}</div>
             <Form.Field required>
               <Form.Input
                 type="text"
@@ -83,9 +73,9 @@ const Login = (props: Props) => {
                 name={ "login" }
                 value={ userCredentials.login }
                 onChange={ handleChange }
-                // error = {userCredentials.loginError}
               />
             </Form.Field>
+
             <Form.Field required>
               <Form.Input
                   type="email"
@@ -93,9 +83,10 @@ const Login = (props: Props) => {
                   name={ "email" }
                   value={ userCredentials.email }
                   onChange={ handleChange }
-                  // error = {userCredentials.emailError}
               />
             </Form.Field>
+
+
             <Form.Field required>
               <Form.Input
                 type="password"
@@ -103,9 +94,9 @@ const Login = (props: Props) => {
                 name={ "password" }
                 value={ userCredentials.password }
                 onChange={ handleChange }
-                // error={userCredentials.passwordError}
               />
             </Form.Field>
+
             <Form.Button
                 content="LogIn"
                 disabled = {
@@ -124,7 +115,8 @@ const Login = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
   return {
-    token: state.token ? true : false
+    token: state.token ? true : false,
+    error: state.error
   }
 };
 
