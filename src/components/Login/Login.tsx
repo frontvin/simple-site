@@ -66,6 +66,7 @@ const Login = (props: Props) => {
 
           <Form onSubmit={ handleSubmit } className="form" style={{ paddingTop: "200px" }}>
             <div>{props.error}</div>
+
             <Form.Field required>
               <Form.Input
                 type="text"

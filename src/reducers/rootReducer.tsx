@@ -33,7 +33,6 @@ const initialState: IState = {
 export const axiosGetUser = async (login: string, email: string, password: string)  => {
 
         const response = await axios.post('http://localhost:5000/login', { email, password });
-
         let  responseData : ServerResponse =  await response.data;
 
         return responseData;
