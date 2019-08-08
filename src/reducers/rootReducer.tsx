@@ -60,6 +60,9 @@ export const loginReducer = (state = initialState, action: RootAction) => {
             // console.log(action.type);
             return { ...state, error:  action.payload.err};
         }
+        case getType(actions.axiosGetContentAction.cancel): {
+            return initialState;
+        }
         default:
             return state;
     }

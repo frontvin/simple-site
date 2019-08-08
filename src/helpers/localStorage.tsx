@@ -20,3 +20,12 @@ export const loadState = () => {
         return undefined;
     }
 };
+
+export const logOut = () => {
+    try {
+        return localStorage.removeItem('state');
+    }
+    catch (err) {
+        return undefined;
+    }
+};
