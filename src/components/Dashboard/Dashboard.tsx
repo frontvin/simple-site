@@ -2,6 +2,7 @@ import React from 'react'
 import { Container } from "semantic-ui-react";
 import Button from "semantic-ui-react/dist/commonjs/elements/Button";
 
+
 export const Dashboard = () => {
 
     return (
@@ -12,3 +13,4 @@ export const Dashboard = () => {
         </Container>
     )
 };
+

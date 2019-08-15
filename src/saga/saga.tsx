@@ -1,31 +1,35 @@
-import { axiosGetUser } from "../reducers/rootReducer";
-import {
-  call,
-  takeLatest,
-  takeEvery,
-  select,
-  put,
-} from "redux-saga/effects";
-import { axiosGetContentAction } from "../actions/actions";
-import {logOut, saveState} from "../helpers/localStorage";
-import {store} from "../store/store";
+import {axiosGetUser} from "../reducers/rootReducer";
+import {all, fork, call, put, select, takeLatest,} from "redux-saga/effects";
+import {axiosGetContentAction, saveToLocalStorage} from "../actions/actions";
+import {loadState, saveState} from "../helpers/localStorage";
+import {getType} from "typesafe-actions";
 
-// watcher saga
-export function* watcherSaga() {
-    yield takeLatest(axiosGetContentAction.request, workerSaga);
+// watcher sagas
+export function* watcherLoginSaga() {
+    yield takeLatest(axiosGetContentAction.request, workerLoginSaga);
+}
+
+export function* watcherStorage() {
+    yield takeLatest(saveToLocalStorage.request, workerStorageSaga);
+}
+
+export function* workerStorageSaga(action: ReturnType<typeof saveToLocalStorage.request>): Generator{
+
+    const state = yield select();
+    const savedData = yield call(saveState, state);
+    yield put(saveToLocalStorage.success())
 }
 
 // worker saga
-export function* workerSaga(action: ReturnType<typeof axiosGetContentAction.request>): Generator {
+export function* workerLoginSaga(action: ReturnType<typeof axiosGetContentAction.request>): Generator {
   try {
     const response = yield call(axiosGetUser, action.payload.login, action.payload.email, action.payload.password);
 
     console.log(response.data);
     // dispatch a success action to the store user data
     yield put(axiosGetContentAction.success(response));
-
-    yield takeEvery("*", loggerSaga);
-
+    // yield call(saveToLocalStorage.success, watcherStorage);
+    yield put(saveToLocalStorage.request());
   } catch (err) {
     // dispatch a failure action to the store with the error
     console.log(err.response.data);
@@ -33,13 +37,9 @@ export function* workerSaga(action: ReturnType<typeof axiosGetContentAction.requ
   }
 }
 
-function* logOutSaga() {
-  yield takeLatest(axiosGetContentAction.cancel, logOut)
-}
-
-function* loggerSaga(action: ReturnType<typeof axiosGetContentAction.success>) {
-  const state = yield select();
-
-  console.log('action', action);
-  console.log('state after', state)
-}
+export function* rootSaga() {
+    yield all([
+        takeLatest(getType(axiosGetContentAction.request), workerLoginSaga),
+        takeLatest(getType(saveToLocalStorage.request), workerStorageSaga),
+    ])
+};

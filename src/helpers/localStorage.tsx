@@ -21,6 +21,7 @@ export const loadState = () => {
     }
 };
 
+// logOut function
 export const logOut = () => {
     try {
         return localStorage.removeItem('state');

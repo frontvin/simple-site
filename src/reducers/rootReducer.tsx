@@ -3,8 +3,8 @@ import decode from 'jwt-decode';
 import {ActionType, getType} from "typesafe-actions";
 import { ServerResponse } from "../actions/actions";
 
-import * as actions from '../actions/actions';
-export type RootAction = ActionType<typeof actions>;
+import * as loginActions from '../actions/actions';
+export type LoginAction = ActionType<typeof loginActions>;
 
 export type DecodedToken = {
     id: string,
@@ -38,11 +38,11 @@ export const axiosGetUser = async (login: string, email: string, password: strin
         return responseData;
 };
 
-export const loginReducer = (state = initialState, action: RootAction) => {
+export const rootReducer = (state = initialState, action: LoginAction) => {
 
     switch (action.type) {
 
-        case getType(actions.axiosGetContentAction.success):{
+        case getType(loginActions.axiosGetContentAction.success):{
             const dec: DecodedToken = decode(action.payload.token);
             const { id, login, email } = dec;
 
@@ -56,12 +56,9 @@ export const loginReducer = (state = initialState, action: RootAction) => {
                 }
             }
         }
-        case getType(actions.axiosGetContentAction.failure): {
+        case getType(loginActions.axiosGetContentAction.failure): {
             // console.log(action.type);
             return { ...state, error:  action.payload.err};
-        }
-        case getType(actions.axiosGetContentAction.cancel): {
-            return initialState;
         }
         default:
             return state;
