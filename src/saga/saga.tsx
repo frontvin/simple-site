@@ -1,7 +1,7 @@
 import {axiosGetUser} from "../reducers/rootReducer";
-import {all, fork, call, put, select, takeLatest,} from "redux-saga/effects";
+import {all, call, put, select, takeLatest,} from "redux-saga/effects";
 import {axiosGetContentAction, saveToLocalStorage} from "../actions/actions";
-import {loadState, saveState} from "../helpers/localStorage";
+import {saveState} from "../helpers/localStorage";
 import {getType} from "typesafe-actions";
 
 // watcher sagas

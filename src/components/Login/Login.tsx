@@ -7,9 +7,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Redirect } from "react-router";
 import { IState } from "../../reducers/rootReducer";
+import {loadState} from "../../helpers/localStorage";
 
 interface IPropsFromState {
-  token: boolean,
+  token: string,
   error: string
 }
 
@@ -33,9 +34,14 @@ const Login = (props: Props) => {
     password: "",
   };
 
-  const [userCredentials, setUserCredentials] = useState(initialState);
+  const tokenFromStorage = loadState().token;
+  console.log(props.token);
+  if (tokenFromStorage === props.token) {
+    console.log(tokenFromStorage);
+  }
 
-  // console.log(userCredentials);
+
+  const [userCredentials, setUserCredentials] = useState(initialState);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = e.target;
@@ -116,7 +122,7 @@ const Login = (props: Props) => {
 
 const mapStateToProps = (state: IState) => {
   return {
-    token: state.token ? true : false,
+    token: state.token,
     error: state.error
   }
 };
