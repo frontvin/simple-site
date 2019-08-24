@@ -1,15 +1,21 @@
 import React from 'react'
 import { Container } from "semantic-ui-react";
 import Button from "semantic-ui-react/dist/commonjs/elements/Button";
-import {logoutUser} from "../../actions/actions";
+import { logoutUser} from "../../actions/actions";
 import {IState} from "../../reducers/rootReducer";
 import {connect} from "react-redux";
 import {Dispatch} from "redux";
 
-export const Dashboard = (props: any) => {
+interface IDashPropsFromDispatch {
+    onLogout: () => ReturnType<typeof logoutUser>
+}
+
+const Dashboard = (props: IDashPropsFromDispatch) => {
+
+    console.log(props);
     const logOutHandler = (e: React.MouseEvent<HTMLButtonElement>) : void => {
         e.preventDefault();
-        logoutUser();
+        props.onLogout();
     };
 
     return (
@@ -27,7 +33,7 @@ const mapStateToProps = (state: IState) => {
 
 const mapDispatchToProps = (dispatch : Dispatch) => {
     return {
-        onLogOut: () => {
+        onLogout: () => {
             return dispatch(logoutUser());
         }
     }
