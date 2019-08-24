@@ -1,7 +1,7 @@
 import {axiosGetUser} from "../reducers/rootReducer";
 import {all, call, put, select, takeLatest,} from "redux-saga/effects";
-import {axiosGetContentAction, saveToLocalStorage} from "../actions/actions";
-import {saveState} from "../helpers/localStorage";
+import {axiosGetContentAction, logoutUser, saveToLocalStorage} from "../actions/actions";
+import {logOut, saveState} from "../helpers/localStorage";
 import {getType} from "typesafe-actions";
 
 // watcher sagas
@@ -37,9 +37,14 @@ export function* workerLoginSaga(action: ReturnType<typeof axiosGetContentAction
   }
 }
 
+export function* workerLogOutSaga(action: ReturnType<typeof logoutUser>): Generator {
+    yield call(logOut);
+}
+
 export function* rootSaga() {
     yield all([
         takeLatest(getType(axiosGetContentAction.request), workerLoginSaga),
         takeLatest(getType(saveToLocalStorage.request), workerStorageSaga),
+        takeLatest(getType(logoutUser), workerLogOutSaga)
     ])
 };

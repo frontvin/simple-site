@@ -60,6 +60,9 @@ export const rootReducer = (state = initialState, action: LoginAction) => {
             // console.log(action.type);
             return { ...state, error:  action.payload.err};
         }
+        case getType(loginActions.logoutUser): {
+            return initialState
+        }
         default:
             return state;
     }

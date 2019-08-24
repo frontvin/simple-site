@@ -4,8 +4,9 @@ import {
     LOGIN_SUCCESS,
     SAVE_TO_STORAGE_REQUEST,
     SAVE_TO_STORAGE_SUCCESS,
-    SAVE_TO_STORAGE_ERROR } from "../constants/constants";
-import { createAsyncAction } from 'typesafe-actions';
+    SAVE_TO_STORAGE_ERROR,
+    LOGOUT_USER } from "../constants/constants";
+import {createAsyncAction, createStandardAction} from 'typesafe-actions';
 
 export type User = { login: string; email: string, password: string };
 export type ServerResponse = { success: boolean, token: string };
@@ -22,3 +23,7 @@ export const saveToLocalStorage = createAsyncAction(
     SAVE_TO_STORAGE_SUCCESS,
     SAVE_TO_STORAGE_ERROR
 )<undefined, undefined, Error>();
+
+export const logoutUser = createStandardAction(
+    LOGOUT_USER
+)();

@@ -7,7 +7,6 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { Redirect } from "react-router";
 import { IState } from "../../reducers/rootReducer";
-import {loadState} from "../../helpers/localStorage";
 
 interface IPropsFromState {
   token: string,
@@ -33,13 +32,6 @@ const Login = (props: Props) => {
     email: "",
     password: "",
   };
-
-  const tokenFromStorage = loadState().token;
-  console.log(props.token);
-  if (tokenFromStorage === props.token) {
-    console.log(tokenFromStorage);
-  }
-
 
   const [userCredentials, setUserCredentials] = useState(initialState);
 
